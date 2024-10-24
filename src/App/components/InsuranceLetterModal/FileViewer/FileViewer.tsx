@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Loader from '../../../../UIKit/Loader/Loader';
 
 interface FileViewerProps {
 	/** Тело файла */
 	src?: string;
+	/** Загрузка файла */
+	isFileLoading: boolean;
 }
 
 /** Валидация тела файла */
@@ -11,10 +14,14 @@ const validateFileViewerBody = (body: string): boolean => {
 }
 
 /** Просмотр файла */
-export default function FileViewer({ src }: FileViewerProps) {
+export default function FileViewer({ src, isFileLoading }: FileViewerProps) {
 	return (
 		<div className='file-viewer'>
-			<iframe id="pdfViewer" src={src && validateFileViewerBody(src) ? src : ""} allowFullScreen={true}></iframe>
+			{
+				isFileLoading
+					? <div className='file-viewer__loader'><Loader /></div>
+					: <iframe id="pdfViewer" className='file-viewer__container' src={src && validateFileViewerBody(src) ? src : ""} allowFullScreen={true}></iframe>
+			}
 		</div>
 	)
 }
