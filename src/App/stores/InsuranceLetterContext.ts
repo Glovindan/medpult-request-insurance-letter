@@ -20,6 +20,10 @@ export class InsuranceLetterData {
 export class InsuranceLetterContext {
 	/** Тело файла */
 	insuranceLetter: InsuranceLetterData
+	/** Показывать модалку письма в форме бланка */
+	isShowPaperModal: boolean
+	/** Показывать модалку письма в форме email */
+	isShowEmailModal: boolean
 
 	constructor() {
 		this.insuranceLetter = new InsuranceLetterData()

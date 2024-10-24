@@ -10,12 +10,14 @@
 	flex-direction: column;
 
 	&__content {
-		overflow: hidden;
+		overflow-y: hidden;
 		resize: both;
 		min-height: 600px;
 		min-width: fit-content;
 		max-height: 100%;
 		max-width: 100%;
+
+		width: 500px;
 
 		padding: 18px;
 		display: flex;
@@ -64,6 +66,16 @@
 	&__viewer {
 		flex: 1;
 		display: flex;
+	}
+
+	&__text {
+		height: 100%;
+		overflow-y: auto;
+
+		font-family: Inter;
+		font-size: 14px;
+		font-weight: 400;
+		color: rgb(0, 0, 0);
 	}
 
 	&__dates {

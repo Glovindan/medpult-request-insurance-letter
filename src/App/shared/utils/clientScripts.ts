@@ -39,6 +39,14 @@ async function handlePaperClick() {
 	await sleep(1000)
 }
 
+/** Генерация текста для email */
+async function generateEmailText(): Promise<string> {
+	// TODO
+	await sleep(1000)
+
+	return 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis!'
+}
+
 export default {
 	appendSetLetterDataCallback,
 	handleCancelClick,
@@ -46,4 +54,5 @@ export default {
 	handleVerbalClick,
 	handleEmailClick,
 	handlePaperClick,
+	generateEmailText,
 }
