@@ -15,11 +15,11 @@ async function handleCancelClick() {
 	// TODO
 }
 
-/** Обработчик нажатия на кнопку обновить */
-async function handleUpdateClick(data: InsuranceLetterData) {
-	// TODO
-	await sleep(1000)
-}
+// /** Обработчик нажатия на кнопку обновить */
+// async function handleUpdateClick(data: InsuranceLetterData) {
+// 	// TODO
+// 	await sleep(1000)
+// }
 
 /** Обработчик нажатия на кнопку устное */
 async function handleVerbalClick() {
@@ -47,12 +47,27 @@ async function generateEmailText(): Promise<string> {
 	return 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero doloremque consectetur quasi facere repellendus. Quae, quaerat incidunt ratione dolorum, fugit consectetur et, labore accusantium nisi ea sunt illum porro debitis!'
 }
 
+/** Обновление дат согласования */
+async function updateApprovalDates(data: InsuranceLetterData): Promise<void> {
+	// TODO
+	await sleep(1000)
+}
+
+/** Получение файла согласования */
+async function generateFile(): Promise<string> {
+	// TODO
+	await sleep(1000)
+
+	return ''
+}
+
 export default {
 	appendSetLetterDataCallback,
 	handleCancelClick,
-	handleUpdateClick,
 	handleVerbalClick,
 	handleEmailClick,
 	handlePaperClick,
 	generateEmailText,
+	updateApprovalDates,
+	generateFile,
 }

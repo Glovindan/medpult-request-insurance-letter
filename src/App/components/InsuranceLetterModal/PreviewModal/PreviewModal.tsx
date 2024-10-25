@@ -1,12 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { insuranceLetterContext, InsuranceLetterContext, InsuranceLetterData } from '../../../stores/InsuranceLetterContext';
-import { getDataFromDraft } from '../../../shared/utils/utils';
-import Panel from '../../../../UIKit/Panel/Panel';
+import React, { useState } from 'react';
+import { insuranceLetterContext, InsuranceLetterData } from '../../../stores/InsuranceLetterContext';
 import CustomInputDate from '../../../../UIKit/CustomInputDate/CustomInputDate';
 import { InputDateType } from '../../../../UIKit/CustomInputDate/CustomInputDateTypes';
 import Button from '../../../../UIKit/Button/Button';
 import { ButtonType } from '../../../../UIKit/Button/ButtonTypes';
-import { iframeSrc } from '../../../shared/utils/constants';
 import FileViewer from '../FileViewer/FileViewer';
 import LabledField from '../../LabledField/LabledField';
 import Scripts from '../../../shared/utils/clientScripts';
@@ -40,28 +37,28 @@ export default function PreviewModal() {
 	}
 
 	const onClickVerbal = async () => {
-		// setValue("isShowPaperModal", true);
+		const letterData = data.insuranceLetter
+		await Scripts.updateApprovalDates(letterData)
+
+		await Scripts.handleVerbalClick()
 	}
 
 	const onClickEmail = async () => {
+		const letterData = data.insuranceLetter
+		await Scripts.updateApprovalDates(letterData)
+
 		setValue("isShowEmailModal", true);
 	}
 
 	const onClickPaper = async () => {
-		await Scripts.handlePaperClick()
+		const letterData = data.insuranceLetter
+		await Scripts.updateApprovalDates(letterData)
+
+		setValue("isShowPaperModal", true);
 	}
 
 	const onClickCancel = async () => {
 		await Scripts.handleCancelClick()
-	}
-
-	const onClickUpdate = async () => {
-		setIsFileLoading(true)
-
-		const letterData = data.insuranceLetter
-		await Scripts.handleUpdateClick(letterData)
-
-		setIsFileLoading(false)
 	}
 
 	return (
@@ -69,12 +66,7 @@ export default function PreviewModal() {
 			<div className="insurance-letter-modal__header">
 				<span className="insurance-letter-modal__label">Гарантийное письмо</span>
 			</div>
-			<div className='insurance-letter-modal__content'>
-				{/* Предпросмотр файла */}
-				<div className='insurance-letter-modal__viewer'>
-					<FileViewer src={data.insuranceLetter.fileSrc} isFileLoading={isFileLoading} />
-				</div>
-				<div className='insurance-letter-modal__separator'></div>
+			<div className='insurance-letter-modal__content' style={{ width: "600px" }}>
 				{/* Даты */}
 				<LabledField label={"Срок действия согласования"} >
 					<div className='insurance-letter-modal__dates'>
@@ -87,18 +79,17 @@ export default function PreviewModal() {
 					</div>
 				</LabledField>
 				{/* Кнопка обновить */}
-				<div>
+				{/* <div>
 					<Button title={"Обновить"} buttonType={ButtonType.outline} clickHandler={onClickUpdate} />
-				</div>
-				<div className='insurance-letter-modal__separator'></div>
+				</div> */}
+				{/* <div className='insurance-letter-modal__separator'></div> */}
 				{/* Кнопки */}
 				<div className='insurance-letter-modal__buttons'>
-					<Button title={"Устное"} clickHandler={onClickVerbal} />
-					<Button title={"Email"} clickHandler={onClickEmail} />
-					<Button title={"ГП на бланке"} clickHandler={onClickPaper} />
+					{!isFileLoading && <Button title={"Устное"} clickHandler={onClickVerbal} />}
+					{!isFileLoading && <Button title={"Email"} clickHandler={onClickEmail} />}
+					{!isFileLoading && <Button title={"ГП на бланке"} clickHandler={onClickPaper} />}
 					<Button title={"Отмена"} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
 				</div>
-
 			</div>
 		</div>
 	)

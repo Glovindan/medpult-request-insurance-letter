@@ -1,18 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { insuranceLetterContext, InsuranceLetterContext, InsuranceLetterData } from '../../../stores/InsuranceLetterContext';
-import { getDataFromDraft } from '../../../shared/utils/utils';
-import Panel from '../../../../UIKit/Panel/Panel';
-import CustomInputDate from '../../../../UIKit/CustomInputDate/CustomInputDate';
-import { InputDateType } from '../../../../UIKit/CustomInputDate/CustomInputDateTypes';
+import React, { useEffect, useState } from 'react';
+import { insuranceLetterContext } from '../../../stores/InsuranceLetterContext';
+import { copy } from '../../../shared/utils/utils';
 import Button from '../../../../UIKit/Button/Button';
 import { ButtonType } from '../../../../UIKit/Button/ButtonTypes';
-import { iframeSrc } from '../../../shared/utils/constants';
-import FileViewer from '../FileViewer/FileViewer';
-import LabledField from '../../LabledField/LabledField';
 import Scripts from '../../../shared/utils/clientScripts';
 import Loader from '../../../../UIKit/Loader/Loader';
 
-/** Модальное окно гарантийного письма (В форме бланка) */
+/** Модальное окно гарантийного письма (Email) */
 export default function EmailModal() {
 	const { data, setValue } = insuranceLetterContext.useContext();
 	// Флаг загрузки текста по шаблону
@@ -30,8 +24,8 @@ export default function EmailModal() {
 	}, [])
 
 	const onClickCopy = async () => {
-		navigator.clipboard.writeText(text)
-		await Scripts.handleVerbalClick()
+		copy(text)
+		await Scripts.handleEmailClick()
 		setValue("isShowEmailModal", false);
 	}
 

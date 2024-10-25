@@ -77,9 +77,24 @@ export function saveState<ValueType>(state: ValueType) {
 	localStorage.setItem(localStorageDraftKey, stateStr)
 }
 
+/** Копировать текст в буфер обмена */
+export const copy = (text: string) => {
+	if (navigator.clipboard) {
+		navigator.clipboard.writeText(text)
+	} else {
+		const input = document.createElement('textarea')
+		input.value = text
+		document.body.appendChild(input)
+		input.select()
+		document.execCommand('copy')
+		document.body.removeChild(input)
+	}
+}
+
 export default {
 	redirectSPA,
 	setRequest,
 	getDataFromDraft,
 	saveState,
+	copy,
 }
