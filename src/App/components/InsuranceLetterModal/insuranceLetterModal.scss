@@ -9,11 +9,34 @@
 	display: flex;
 	flex-direction: column;
 
+	&__insured-list {
+		width: 100%;
+		min-width: 100%;
+		height: 10px;
+		flex: 1;
+
+		& > .insured-list {
+			height: 100%;
+			& > .insured-list__list {
+				height: 100%;
+
+				& > .custom-list {
+					display: flex;
+					flex-direction: column;
+					height: 100%;
+					& > .custom-list__body_scrollable {
+						flex: 1;
+					}
+				}
+			}
+		}
+	}
+
 	&__content {
 		overflow-y: hidden;
 		resize: both;
 		min-height: 600px;
-		min-width: fit-content;
+		min-width: 700px;
 		max-height: 100%;
 		max-width: 100%;
 

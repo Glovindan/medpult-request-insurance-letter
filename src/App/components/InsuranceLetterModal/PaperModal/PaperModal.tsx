@@ -57,7 +57,7 @@ export default function PaperModal() {
 		setIsFileLoading(true)
 
 		const letterData = data.insuranceLetter
-		await Scripts.updateApprovalDates(letterData)
+		await Scripts.updateApprovalData(letterData)
 		letterData.fileSrc = await Scripts.generateFile();
 		setValue("insuranceLetter", letterData);
 
@@ -70,6 +70,13 @@ export default function PaperModal() {
 
 	const onClickCreate = async () => {
 		await Scripts.handlePaperClick()
+		setValue("isShowPaperModal", false);
+	}
+
+	const onClickSave = async () => {
+		const letterData = data.insuranceLetter
+		await Scripts.updateApprovalData(letterData)
+		await Scripts.handleSavePaperClick()
 		setValue("isShowPaperModal", false);
 	}
 
@@ -103,6 +110,7 @@ export default function PaperModal() {
 				{/* Кнопки */}
 				<div className='insurance-letter-modal__buttons'>
 					{!isFileLoading && <Button title={"Сформировать ГП в pdf"} clickHandler={onClickCreate} />}
+					{!isFileLoading && <Button title={"Сохранить"} buttonType={ButtonType.outline} clickHandler={onClickSave} />}
 					<Button title={"Отмена"} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
 				</div>
 			</div>

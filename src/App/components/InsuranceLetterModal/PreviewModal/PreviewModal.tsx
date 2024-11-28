@@ -7,6 +7,7 @@ import { ButtonType } from '../../../../UIKit/Button/ButtonTypes';
 import FileViewer from '../FileViewer/FileViewer';
 import LabledField from '../../LabledField/LabledField';
 import Scripts from '../../../shared/utils/clientScripts';
+import InsuredList from '../../InsuredList/InsuredList';
 
 /** Модальное окно гарантийного письма (Предпросомтр) */
 export default function PreviewModal() {
@@ -15,11 +16,11 @@ export default function PreviewModal() {
 
 	// Инициализация
 	React.useLayoutEffect(() => {
-		const setInsuredData = (letterData: InsuranceLetterData) => {
+		const setLetterData = (letterData: InsuranceLetterData) => {
 			setValue("insuranceLetter", letterData);
 		}
 
-		Scripts.appendSetLetterDataCallback(setInsuredData)
+		Scripts.appendSetLetterDataCallback(setLetterData)
 	}, [])
 
 	const onChangeDateFrom = (date: string) => {
@@ -38,35 +39,48 @@ export default function PreviewModal() {
 
 	const onClickVerbal = async () => {
 		const letterData = data.insuranceLetter
-		await Scripts.updateApprovalDates(letterData)
+		await Scripts.updateApprovalData(letterData)
 
 		await Scripts.handleVerbalClick()
 	}
 
 	const onClickEmail = async () => {
 		const letterData = data.insuranceLetter
-		await Scripts.updateApprovalDates(letterData)
+		await Scripts.updateApprovalData(letterData)
 
 		setValue("isShowEmailModal", true);
 	}
 
 	const onClickPaper = async () => {
 		const letterData = data.insuranceLetter
-		await Scripts.updateApprovalDates(letterData)
+		await Scripts.updateApprovalData(letterData)
 
 		setValue("isShowPaperModal", true);
 	}
 
+	const onClickSave = async () => {
+		const letterData = data.insuranceLetter
+		await Scripts.updateApprovalData(letterData)
+		await Scripts.handleSaveClick()
+	}
 	const onClickCancel = async () => {
 		await Scripts.handleCancelClick()
 	}
 
+	/** Изменить идентификаторы выбранных контрагентов */
+	const setSelectedContractorsIds = (ids: string[]) => {
+		const letterData = data.insuranceLetter;
+
+		letterData.contractorsIds = ids;
+
+		setValue("insuranceLetter", letterData)
+	}
 	return (
 		<div className='insurance-letter-modal'>
 			<div className="insurance-letter-modal__header">
 				<span className="insurance-letter-modal__label">Гарантийное письмо</span>
 			</div>
-			<div className='insurance-letter-modal__content' style={{ width: "600px" }}>
+			<div className='insurance-letter-modal__content' style={{ width: "600px", height: "600px" }}>
 				{/* Даты */}
 				<LabledField label={"Срок действия согласования"} >
 					<div className='insurance-letter-modal__dates'>
@@ -78,6 +92,11 @@ export default function PreviewModal() {
 						</LabledField>
 					</div>
 				</LabledField>
+				{data.insuranceLetter.isCollective &&
+					<div className='insurance-letter-modal__insured-list'>
+						<InsuredList selectedContractorsIds={data.insuranceLetter.contractorsIds} setSelectedContractorsIds={setSelectedContractorsIds} />
+					</div>
+				}
 				{/* Кнопка обновить */}
 				{/* <div>
 					<Button title={"Обновить"} buttonType={ButtonType.outline} clickHandler={onClickUpdate} />
@@ -88,7 +107,8 @@ export default function PreviewModal() {
 					{!isFileLoading && <Button title={"Устное"} clickHandler={onClickVerbal} />}
 					{!isFileLoading && <Button title={"Email"} clickHandler={onClickEmail} />}
 					{!isFileLoading && <Button title={"ГП на бланке"} clickHandler={onClickPaper} />}
-					<Button title={"Отмена"} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
+					<Button title={"Сохранить"} buttonType={ButtonType.outline} clickHandler={onClickSave} />
+					<Button title={"Удалить"} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
 				</div>
 			</div>
 		</div>

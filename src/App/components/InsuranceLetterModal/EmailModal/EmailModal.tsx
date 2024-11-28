@@ -33,6 +33,13 @@ export default function EmailModal() {
 		setValue("isShowEmailModal", false);
 	}
 
+	const onClickSave = async () => {
+		const letterData = data.insuranceLetter
+		await Scripts.updateApprovalData(letterData)
+		await Scripts.handleSaveEmailClick()
+		setValue("isShowEmailModal", false);
+	}
+
 	return (
 		<div className='insurance-letter-modal'>
 			<div className="insurance-letter-modal__header">
@@ -50,6 +57,8 @@ export default function EmailModal() {
 				{/* Кнопки */}
 				<div className='insurance-letter-modal__buttons'>
 					{!isTextLoading && <Button title={"Скопировать и закрыть"} clickHandler={onClickCopy} />}
+					{!isTextLoading && <Button title={"Сохранить"} buttonType={ButtonType.outline} clickHandler={onClickSave} />}
+
 					<Button title={"Отмена"} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
 				</div>
 			</div>

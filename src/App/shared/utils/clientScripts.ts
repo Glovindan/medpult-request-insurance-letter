@@ -1,4 +1,6 @@
+import { FetchData, ItemData, SortData } from '../../../UIKit/CustomList/CustomListTypes'
 import { InsuranceLetterContext, InsuranceLetterData } from '../../stores/InsuranceLetterContext'
+import { InsuredListData } from '../types'
 /** Ожидание */
 function sleep(ms: number) {
 	return new Promise((resolve) => window.setTimeout(resolve, ms))
@@ -12,6 +14,21 @@ async function appendSetLetterDataCallback(callback: SetLetterDataCallback) {
 
 /** Обработчик нажатия на кнопку отмена */
 async function handleCancelClick() {
+	// TODO
+}
+
+/** Обработчик нажатия на кнопку сохранить */
+async function handleSaveClick() {
+	// TODO
+}
+
+/** Обработчик нажатия на кнопку сохранить Email */
+async function handleSaveEmailClick() {
+	// TODO
+}
+
+/** Обработчик нажатия на кнопку сохранить на бланке */
+async function handleSavePaperClick() {
 	// TODO
 }
 
@@ -48,7 +65,7 @@ async function generateEmailText(): Promise<string> {
 }
 
 /** Обновление дат согласования */
-async function updateApprovalDates(data: InsuranceLetterData): Promise<void> {
+async function updateApprovalData(data: InsuranceLetterData): Promise<void> {
 	// TODO
 	await sleep(1000)
 }
@@ -61,6 +78,44 @@ async function generateFile(): Promise<string> {
 	return ''
 }
 
+/** Получение списка задач */
+async function getInsuredList(
+	page: number,
+	sortData?: SortData
+): Promise<FetchData<InsuredListData>> {
+	console.log({
+		page,
+		sortData,
+	})
+
+	const mockData: InsuredListData = {
+		fullname: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		birthdate: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		phone: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		email: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		policy: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		policyStartDate: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		policyEndDate: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		policyTerm: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		policyRegion: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		policyProduct: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		plan: new ItemData({ value: 'TS00000001/23', info: 'test' }),
+		moreButton: new ItemData({ value: 'Подробнее', info: 'test' }),
+	}
+
+	return {
+		items: Array(20)
+			.fill(0)
+			.map((data, index) => {
+				return {
+					id: String(index),
+					data: new InsuredListData(mockData),
+				}
+			}),
+		hasMore: true,
+	}
+}
+
 export default {
 	appendSetLetterDataCallback,
 	handleCancelClick,
@@ -68,6 +123,12 @@ export default {
 	handleEmailClick,
 	handlePaperClick,
 	generateEmailText,
-	updateApprovalDates,
+	updateApprovalData,
 	generateFile,
+	handleSaveClick,
+
+	getInsuredList,
+
+	handleSaveEmailClick,
+	handleSavePaperClick,
 }
