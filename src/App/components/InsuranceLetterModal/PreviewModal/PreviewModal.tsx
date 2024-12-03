@@ -16,14 +16,6 @@ export default function PreviewModal() {
 
 	// Инициализация
 	React.useLayoutEffect(() => {
-		setValue("insuranceLetter", {
-			"fileSrc": "",
-			"dateFrom": "03.12.2024",
-			"dateTo": "01.01.2025",
-			"isCollective": true,
-			"contractorsIds": []
-		});
-
 		const setLetterData = (letterData: InsuranceLetterData) => {
 			setValue("insuranceLetter", letterData);
 		}
