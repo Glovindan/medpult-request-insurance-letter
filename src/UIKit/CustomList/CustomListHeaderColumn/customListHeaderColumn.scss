@@ -1,4 +1,4 @@
-.custom-list-header-column {
+#insurance-letter-root .custom-list-header-column {
 	user-select: none;
 	display: flex;
 	flex-direction: row;
@@ -6,6 +6,9 @@
 	align-items: center;
 
 	&__name {
+		width: 10px;
+		max-width: fit-content;
+		flex: 1;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;

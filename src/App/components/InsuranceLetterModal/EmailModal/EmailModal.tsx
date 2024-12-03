@@ -56,8 +56,8 @@ export default function EmailModal() {
 				</div>
 				{/* Кнопки */}
 				<div className='insurance-letter-modal__buttons'>
-					{!isTextLoading && <Button title={"Скопировать и закрыть"} clickHandler={onClickCopy} />}
-					{!isTextLoading && <Button title={"Сохранить"} buttonType={ButtonType.outline} clickHandler={onClickSave} />}
+					{/* {!isTextLoading && <Button title={"Скопировать и закрыть"} clickHandler={onClickCopy} />} */}
+					{!isTextLoading && <Button title={"Сохранить"} clickHandler={onClickSave} />}
 
 					<Button title={"Отмена"} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
 				</div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CustomList from '../../../UIKit/CustomList/CustomList';
 import { ListColumnData } from '../../../UIKit/CustomList/CustomListTypes';
 import { InsuredListData } from '../../shared/types';
-//import Scripts from '../../shared/utils/clientScripts';
+import Scripts from '../../shared/utils/clientScripts';
 
 interface InsuredListProps {
 	selectedContractorsIds: string[],

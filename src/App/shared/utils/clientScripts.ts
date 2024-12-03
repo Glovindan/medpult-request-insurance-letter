@@ -10,6 +10,7 @@ type SetLetterDataCallback = (data: InsuranceLetterData) => void
 let setLetterDataCallback: SetLetterDataCallback | undefined
 async function appendSetLetterDataCallback(callback: SetLetterDataCallback) {
 	setLetterDataCallback = callback
+	;(window as any)['setLetterDataCallback'] = callback
 }
 
 /** Обработчик нажатия на кнопку отмена */

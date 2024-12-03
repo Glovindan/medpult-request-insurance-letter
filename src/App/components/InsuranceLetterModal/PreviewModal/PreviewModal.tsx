@@ -16,6 +16,14 @@ export default function PreviewModal() {
 
 	// Инициализация
 	React.useLayoutEffect(() => {
+		setValue("insuranceLetter", {
+			"fileSrc": "",
+			"dateFrom": "03.12.2024",
+			"dateTo": "01.01.2025",
+			"isCollective": true,
+			"contractorsIds": []
+		});
+
 		const setLetterData = (letterData: InsuranceLetterData) => {
 			setValue("insuranceLetter", letterData);
 		}
@@ -75,6 +83,7 @@ export default function PreviewModal() {
 
 		setValue("insuranceLetter", letterData)
 	}
+
 	return (
 		<div className='insurance-letter-modal'>
 			<div className="insurance-letter-modal__header">
@@ -107,8 +116,8 @@ export default function PreviewModal() {
 					{!isFileLoading && <Button title={"Устное"} clickHandler={onClickVerbal} />}
 					{!isFileLoading && <Button title={"Email"} clickHandler={onClickEmail} />}
 					{!isFileLoading && <Button title={"ГП на бланке"} clickHandler={onClickPaper} />}
-					<Button title={"Сохранить"} buttonType={ButtonType.outline} clickHandler={onClickSave} />
-					<Button title={"Удалить"} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
+					{/* <Button title={"Сохранить"} buttonType={ButtonType.outline} clickHandler={onClickSave} /> */}
+					<Button title={"Отмена"} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
 				</div>
 			</div>
 		</div>

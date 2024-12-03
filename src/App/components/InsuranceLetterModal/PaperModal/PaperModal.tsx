@@ -109,8 +109,8 @@ export default function PaperModal() {
 				<div className='insurance-letter-modal__separator'></div>
 				{/* Кнопки */}
 				<div className='insurance-letter-modal__buttons'>
-					{!isFileLoading && <Button title={"Сформировать ГП в pdf"} clickHandler={onClickCreate} />}
-					{!isFileLoading && <Button title={"Сохранить"} buttonType={ButtonType.outline} clickHandler={onClickSave} />}
+					{/* {!isFileLoading && <Button title={"Сформировать ГП в pdf"} clickHandler={onClickCreate} />} */}
+					{!isFileLoading && <Button title={"Сохранить"} clickHandler={onClickSave} />}
 					<Button title={"Отмена"} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
 				</div>
 			</div>

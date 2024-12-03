@@ -1,4 +1,4 @@
-.custom-list-row {
+#insurance-letter-root .custom-list-row {
 	display: flex;
 	gap: 8px;
 	flex-direction: row;
@@ -6,7 +6,8 @@
 	border-bottom: 2px solid var(--medpult-bg-color);
 	height: 52px;
 	align-items: center;
-	padding: 0px 20px;
+
+	padding-right: 20px;
 
 	&_openable {
 		cursor: pointer;
