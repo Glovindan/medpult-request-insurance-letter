@@ -60,7 +60,7 @@ function CustomInputDate(props: CustomInputDateProps) {
 
 	return (
 		<div className='custom-input-date'>
-			<input type={type} onChange={onChangePickerValue} className='custom-input-date__picker' ref={pickerRef} />
+			<input type={type} onChange={onChangePickerValue} className='custom-input-date__picker' ref={pickerRef} disabled={props.disabled} />
 			<CustomInput
 				{...props}
 				type='text'

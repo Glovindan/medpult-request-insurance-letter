@@ -1,3 +1,4 @@
+import { ApprovalForm } from '../shared/types'
 import { initGlobalContext } from './GlobalContext'
 
 /** Данные гарантийного письма */
@@ -12,6 +13,8 @@ export class InsuranceLetterData {
 	contractorsIds: string[]
 	/** Является коллективным */
 	isCollective: boolean
+	/** Форма согалсования */
+	form: ApprovalForm
 
 	constructor() {
 		this.fileSrc = ''
@@ -19,6 +22,7 @@ export class InsuranceLetterData {
 		this.dateTo = ''
 		this.contractorsIds = []
 		this.isCollective = false
+		this.form = ApprovalForm.verbal
 	}
 }
 

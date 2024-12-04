@@ -106,3 +106,13 @@ export class InsuredListData {
 		this.moreButton = moreButton
 	}
 }
+
+/** Форма согласования */
+export enum ApprovalForm {
+	/** На бланке */
+	paper = 'paper',
+	/** Устно */
+	verbal = 'verbal',
+	/** Email */
+	email = 'email',
+}

@@ -104,7 +104,7 @@ textarea:not([rows]) {
 	border: initial;
 	display: initial;
 	width: initial;
-	background-color: initial;
+	background-color: initial !important;
 	background-image: initial;
 	background-clip: initial;
 }

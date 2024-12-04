@@ -95,17 +95,17 @@ export default function PaperModal() {
 				<LabledField label={"Срок действия согласования"} >
 					<div className='insurance-letter-modal__dates'>
 						<LabledField label={"Дата с"} >
-							<CustomInputDate type={InputDateType.date} value={data.insuranceLetter.dateFrom} setValue={onChangeDateFrom} />
+							<CustomInputDate type={InputDateType.date} value={data.insuranceLetter.dateFrom} setValue={onChangeDateFrom} disabled />
 						</LabledField>
 						<LabledField label={"Дата по"} >
-							<CustomInputDate type={InputDateType.date} value={data.insuranceLetter.dateTo} setValue={onChangeDateTo} />
+							<CustomInputDate type={InputDateType.date} value={data.insuranceLetter.dateTo} setValue={onChangeDateTo} disabled />
 						</LabledField>
 					</div>
 				</LabledField>
 				{/* Кнопка обновить */}
-				<div>
+				{/* <div>
 					<Button title={"Обновить"} buttonType={ButtonType.outline} clickHandler={onClickUpdate} />
-				</div>
+				</div> */}
 				<div className='insurance-letter-modal__separator'></div>
 				{/* Кнопки */}
 				<div className='insurance-letter-modal__buttons'>

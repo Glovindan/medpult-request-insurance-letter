@@ -32,15 +32,13 @@ type ListProps<SearchDataType = any, ItemType = any> = {
 	/** Множественный выбор строк */
 	isMultipleSelect?: boolean
 	/** Присвоить выбранные строки */
-	selectedItems?: string[]
-	/** Присвоить выбранные строки */
 	setSelectedItems?: (ids: string[]) => void
 }
 
 /** Список данных в виде таблицы */
 function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<SearchDataType, ItemType>) {
-	const { height = "100%", listWidth, columnsSettings, getDataHandler, searchData, setSearchHandler, isScrollable = true, getDetailsLayout, isMultipleSelect, isSelectable, selectedItems = [], setSelectedItems } = props;
-
+	const { height = "100%", listWidth, columnsSettings, getDataHandler, searchData, setSearchHandler, isScrollable = true, getDetailsLayout, isMultipleSelect, isSelectable, setSelectedItems } = props;
+	useEffect(() => { console.log(listWidth) }, [listWidth])
 	// Страница
 	const [page, setPage] = useState<number>(0);
 	// Показать лоадер
@@ -108,10 +106,15 @@ function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<Searc
 		}
 	}
 
+	const [isSearchPerformed, setIsSearchPerformed] = useState<boolean>(true);
 	/** Установить обработчик нажатия на кнопку поиск */
 	useEffect(() => {
 		if (!setSearchHandler) return;
-		setSearchHandler(() => { reloadData() });
+
+		setSearchHandler(() => {
+			setIsSearchPerformed(true);
+			reloadData()
+		});
 	}, [searchData, sortData])
 
 	/** Обновление оглавления при изменении сортировки */
@@ -132,31 +135,50 @@ function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<Searc
 		return element.offsetWidth - element.clientWidth;
 	}
 
-	const setCheckedRowsIds = (ids: string[]) => {
-		if (setSelectedItems) setSelectedItems(ids);
-	}
+	/** Идентификаторы выбранных строк */
+	const [checkedRowsIds, setCheckedRowsIds] = useState<string[]>([]);
+	/** Передача выбранных элементов наружу */
+	useEffect(() => {
+		if (setSelectedItems) setSelectedItems(checkedRowsIds);
+	}, [checkedRowsIds])
 
 	/** Добавление/удаление выбранной строки */
 	const toggleCheckedRow = (id: string) => {
-		const findId = selectedItems.find(checkedId => checkedId === id);
+		const findId = checkedRowsIds.find(checkedId => checkedId === id);
 
 		// Удаление
 		if (findId) {
-			setCheckedRowsIds(selectedItems.filter(checkedId => checkedId != id));
+			setCheckedRowsIds(checkedRowsIds.filter(checkedId => checkedId != id));
 			return
 		}
 
 		// Добавление
 		if (isMultipleSelect) {
-			setCheckedRowsIds([...selectedItems, id]);
+			setCheckedRowsIds([...checkedRowsIds, id]);
 		} else {
 			setCheckedRowsIds([id]);
 		}
 	}
 
+	/** Стили шапки */
 	const headerStyles: React.CSSProperties = {};
 	if (listWidth) headerStyles.width = `${listWidth - getScrollbarWidth(headerRef)}px`;
 	if (!isSelectable) headerStyles.paddingLeft = `20px`;
+
+	const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
+
+	const toggleAllRows = () => {
+		if (!setSelectedItems) return;
+		if (isAllSelected) {
+			setCheckedRowsIds([]);
+			setSelectedItems([]);
+		} else {
+			const allIds = items.map((item) => item.id);
+			setCheckedRowsIds(allIds);
+			setSelectedItems(allIds);
+		}
+		setIsAllSelected(!isAllSelected);
+	};
 
 	return (
 		<div className='custom-list'>
@@ -171,8 +193,20 @@ function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<Searc
 				<div style={headerStyles}>
 					{/* TODO: Выбор всех */}
 					{isSelectable && (
-						<div style={!isMultipleSelect ? { visibility: "hidden" } : { visibility: "hidden" }}>
-							<CustomListSelector onClickSelector={() => { }} isChecked={false} />
+						<div
+							style={{
+								position: "sticky",
+								left: "0",
+								visibility: (isMultipleSelect && isSearchPerformed) ? "visible" : "hidden",
+								zIndex: "1000",
+							}}
+						>
+							<CustomListSelector
+								onClickSelector={toggleAllRows}
+								isChecked={isAllSelected}
+								isMultiple={true}
+								style={{ background: "#f9f9fa" }}
+							/>
 						</div>
 					)}
 					{columnsSettings.map(columnSettings =>
@@ -216,7 +250,8 @@ function CustomList<SearchDataType = any, ItemType = any>(props: ListProps<Searc
 							setOpenRowIndex={toggleShowDetails}
 							reloadData={reloadData}
 							toggleChecked={() => toggleCheckedRow(item.id)}
-							isChecked={Boolean(selectedItems.find(checkedId => checkedId === item.id))}
+							isChecked={Boolean(checkedRowsIds.find(checkedId => checkedId === item.id))}
+							listRef={bodyRef}
 						/>
 					})}
 					{isLoading && <Loader />}

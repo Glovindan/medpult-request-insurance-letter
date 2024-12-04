@@ -8,6 +8,7 @@ import FileViewer from '../FileViewer/FileViewer';
 import LabledField from '../../LabledField/LabledField';
 import Scripts from '../../../shared/utils/clientScripts';
 import InsuredList from '../../InsuredList/InsuredList';
+import { ApprovalForm } from '../../../shared/types';
 
 /** Модальное окно гарантийного письма (Предпросомтр) */
 export default function PreviewModal() {
@@ -39,6 +40,7 @@ export default function PreviewModal() {
 
 	const onClickVerbal = async () => {
 		const letterData = data.insuranceLetter
+		letterData.form = ApprovalForm.verbal;
 		await Scripts.updateApprovalData(letterData)
 
 		await Scripts.handleVerbalClick()
@@ -46,6 +48,7 @@ export default function PreviewModal() {
 
 	const onClickEmail = async () => {
 		const letterData = data.insuranceLetter
+		letterData.form = ApprovalForm.email;
 		await Scripts.updateApprovalData(letterData)
 
 		setValue("isShowEmailModal", true);
@@ -53,6 +56,7 @@ export default function PreviewModal() {
 
 	const onClickPaper = async () => {
 		const letterData = data.insuranceLetter
+		letterData.form = ApprovalForm.paper;
 		await Scripts.updateApprovalData(letterData)
 
 		setValue("isShowPaperModal", true);
@@ -86,10 +90,10 @@ export default function PreviewModal() {
 				<LabledField label={"Срок действия согласования"} >
 					<div className='insurance-letter-modal__dates'>
 						<LabledField label={"Дата с"} >
-							<CustomInputDate type={InputDateType.date} value={data.insuranceLetter.dateFrom} setValue={onChangeDateFrom} />
+							<CustomInputDate type={InputDateType.date} value={data.insuranceLetter.dateFrom} setValue={onChangeDateFrom} disabled />
 						</LabledField>
 						<LabledField label={"Дата по"} >
-							<CustomInputDate type={InputDateType.date} value={data.insuranceLetter.dateTo} setValue={onChangeDateTo} />
+							<CustomInputDate type={InputDateType.date} value={data.insuranceLetter.dateTo} setValue={onChangeDateTo} disabled />
 						</LabledField>
 					</div>
 				</LabledField>
