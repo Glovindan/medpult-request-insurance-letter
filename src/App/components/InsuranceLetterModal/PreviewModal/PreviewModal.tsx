@@ -122,7 +122,7 @@ export default function PreviewModal() {
 								type={InputDateType.date}
 								value={data.insuranceLetter.dateFrom}
 								setValue={onChangeDateFrom}
-								//disabled
+								disabled
 							/>
 						</LabledField>
 						<LabledField label={'Дата по'}>
