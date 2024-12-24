@@ -68,7 +68,7 @@ export class InsuredListData {
 	/** Дата окончания действия полиса */
 	policyEndDate?: ItemData
 	/** Срок действия полиса */
-	policyTerm?: ItemData
+	//policyTerm?: ItemData
 	/** Регион действия полиса */
 	policyRegion?: ItemData
 	/** Продукт */
@@ -86,7 +86,7 @@ export class InsuredListData {
 		policy,
 		policyStartDate,
 		policyEndDate,
-		policyTerm,
+		//policyTerm,
 		policyRegion,
 		policyProduct,
 		plan,
@@ -99,7 +99,7 @@ export class InsuredListData {
 		this.policy = policy
 		this.policyStartDate = policyStartDate
 		this.policyEndDate = policyEndDate
-		this.policyTerm = policyTerm
+		//this.policyTerm = policyTerm
 		this.policyRegion = policyRegion
 		this.policyProduct = policyProduct
 		this.plan = plan
