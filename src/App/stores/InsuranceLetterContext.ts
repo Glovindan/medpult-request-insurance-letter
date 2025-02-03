@@ -9,6 +9,8 @@ export class InsuranceLetterData {
 	dateFrom: string
 	/** Дата по */
 	dateTo: string
+	/** Срок действия полиса */
+	policyEndDate: string
 	/** Идентификаторы застрахованных */
 	contractorsIds: string[]
 	/** Является коллективным */
@@ -20,6 +22,7 @@ export class InsuranceLetterData {
 		this.fileSrc = ''
 		this.dateFrom = ''
 		this.dateTo = ''
+		this.policyEndDate = ''
 		this.contractorsIds = []
 		this.isCollective = false
 		this.form = ApprovalForm.verbal

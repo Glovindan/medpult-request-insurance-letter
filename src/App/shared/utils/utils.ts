@@ -91,6 +91,17 @@ export const copy = (text: string) => {
 	}
 }
 
+/** Показать уведомление об ошибке */
+export const showError = (text: string) => {
+	if((window as any).showError) {
+	  (window as any).showError(text)
+  
+	  return
+	}
+  
+	alert(text)
+  };
+
 export default {
 	redirectSPA,
 	setRequest,

@@ -9,6 +9,8 @@ import LabledField from '../../LabledField/LabledField'
 import Scripts from '../../../shared/utils/clientScripts'
 import InsuredList from '../../InsuredList/InsuredList'
 import { ApprovalForm } from '../../../shared/types'
+import moment from 'moment'
+import { showError } from '../../../shared/utils/utils'
 
 /** Модальное окно гарантийного письма (Предпросомтр) */
 export default function PreviewModal() {
@@ -24,13 +26,6 @@ export default function PreviewModal() {
 		Scripts.appendSetLetterDataCallback(setLetterData)
 	}, [])
 
-	const formatDate = (date) => {
-		const day = String(date.getDate()).padStart(2, '0')
-		const month = String(date.getMonth() + 1).padStart(2, '0')
-		const year = date.getFullYear()
-		return `${day}.${month}.${year}`
-	}
-
 	const onChangeDateFrom = (date: string) => {
 		const letterData = data.insuranceLetter
 		letterData.dateFrom = date
@@ -43,29 +38,32 @@ export default function PreviewModal() {
 		const letterData = data.insuranceLetter
 		letterData.dateTo = dateString
 
-		if (dateString.length === 10) {
-			const [day, month, year] = dateString.split('.').map(Number)
-			const dateTo = new Date(year, month - 1, day)
+		const dateFrom = moment(letterData.dateFrom, "DD.MM.YYYY");
+		// Дата начала +29 дней
+		const maxDateCalculate = moment(dateFrom).add(moment.duration(29, "days"))
+		// Дата окончания действия полиса
+		const policyEndDate = letterData.policyEndDate ? moment(letterData.policyEndDate, "DD.MM.YYYY") : undefined;
+		// Максимально возможная дата для выбора
+		const maxDateTo = policyEndDate?.isBefore(maxDateCalculate) ? policyEndDate : maxDateCalculate;
 
-			const [fromDay, fromMonth, fromYear] = letterData.dateFrom.split('.').map(Number)
-			const dateFrom = new Date(fromYear, fromMonth - 1, fromDay)
-
-			const maxDateTo = new Date()
-			maxDateTo.setDate(maxDateTo.getDate() + 29)
+		if (dateString.match(/\d\d\.\d\d\.\d\d\d\d/mg)) {
+			const dateTo = moment(dateString, "DD.MM.YYYY");
 
 			// Проверка
-			if (dateTo < dateFrom || dateTo > maxDateTo) {
-				setIsInvalidDateTo(true)
-				letterData.dateTo = ''
-			} else {
-				setIsInvalidDateTo(false)
+			if (dateTo.isBefore(dateFrom)) {
+				letterData.dateTo = dateFrom.format("DD.MM.YYYY")
+				showError("Дата окончания согласования не может быть меньше даты начала согласования")
+			} else if (dateTo.isAfter(maxDateTo)) {
+				letterData.dateTo = moment(maxDateTo).format("DD.MM.YYYY")
+				showError("Дата окончания согласования не может быть позднее чем 29 дней после даты начала согласования или даты окончания действия полиса")
 			}
 		} else {
-			letterData.dateFrom = ''
+			letterData.dateFrom = maxDateTo.format("DD.MM.YYYY")
 		}
 
 		setValue('insuranceLetter', letterData)
 	}
+
 	const onClickVerbal = async () => {
 		const letterData = data.insuranceLetter
 		letterData.form = ApprovalForm.verbal
