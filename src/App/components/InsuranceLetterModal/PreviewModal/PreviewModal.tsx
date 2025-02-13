@@ -11,6 +11,7 @@ import InsuredList from '../../InsuredList/InsuredList'
 import { ApprovalForm } from '../../../shared/types'
 import moment from 'moment'
 import { showError } from '../../../shared/utils/utils'
+import icons from '../../../shared/icons'
 
 /** Модальное окно гарантийного письма (Предпросомтр) */
 export default function PreviewModal() {
@@ -38,27 +39,31 @@ export default function PreviewModal() {
 		const letterData = data.insuranceLetter
 		letterData.dateTo = dateString
 
-		const dateFrom = moment(letterData.dateFrom, "DD.MM.YYYY");
+		const dateFrom = moment(letterData.dateFrom, 'DD.MM.YYYY')
 		// Дата начала +29 дней
-		const maxDateCalculate = moment(dateFrom).add(moment.duration(29, "days"))
+		const maxDateCalculate = moment(dateFrom).add(moment.duration(29, 'days'))
 		// Дата окончания действия полиса
-		const policyEndDate = letterData.policyEndDate ? moment(letterData.policyEndDate, "DD.MM.YYYY") : undefined;
+		const policyEndDate = letterData.policyEndDate
+			? moment(letterData.policyEndDate, 'DD.MM.YYYY')
+			: undefined
 		// Максимально возможная дата для выбора
-		const maxDateTo = policyEndDate?.isBefore(maxDateCalculate) ? policyEndDate : maxDateCalculate;
+		const maxDateTo = policyEndDate?.isBefore(maxDateCalculate) ? policyEndDate : maxDateCalculate
 
-		if (dateString.match(/\d\d\.\d\d\.\d\d\d\d/mg)) {
-			const dateTo = moment(dateString, "DD.MM.YYYY");
+		if (dateString.match(/\d\d\.\d\d\.\d\d\d\d/gm)) {
+			const dateTo = moment(dateString, 'DD.MM.YYYY')
 
 			// Проверка
 			if (dateTo.isBefore(dateFrom)) {
-				letterData.dateTo = dateFrom.format("DD.MM.YYYY")
-				showError("Дата окончания согласования не может быть меньше даты начала согласования")
+				letterData.dateTo = dateFrom.format('DD.MM.YYYY')
+				showError('Дата окончания согласования не может быть меньше даты начала согласования')
 			} else if (dateTo.isAfter(maxDateTo)) {
-				letterData.dateTo = moment(maxDateTo).format("DD.MM.YYYY")
-				showError("Дата окончания согласования не может быть позднее чем 29 дней после даты начала согласования или даты окончания действия полиса")
+				letterData.dateTo = moment(maxDateTo).format('DD.MM.YYYY')
+				showError(
+					'Дата окончания согласования не может быть позднее чем 29 дней после даты начала согласования или даты окончания действия полиса'
+				)
 			}
 		} else {
-			letterData.dateFrom = maxDateTo.format("DD.MM.YYYY")
+			letterData.dateFrom = maxDateTo.format('DD.MM.YYYY')
 		}
 
 		setValue('insuranceLetter', letterData)
@@ -111,7 +116,10 @@ export default function PreviewModal() {
 			<div className="insurance-letter-modal__header">
 				<span className="insurance-letter-modal__label">Согласование</span>
 			</div>
-			<div className="insurance-letter-modal__content" style={{ width: '600px', height: '600px' }}>
+			<div
+				className="insurance-letter-modal__contentH"
+				style={{ width: '600px', height: data.insuranceLetter.isCollective ? '600px' : '200px' }}
+			>
 				{/* Даты */}
 				<LabledField label={'Срок действия согласования'}>
 					<div className="insurance-letter-modal__dates">
@@ -149,12 +157,14 @@ export default function PreviewModal() {
 				{/* Кнопки */}
 				<div className="insurance-letter-modal__buttons">
 					{!isFileLoading && !data.insuranceLetter.isCollective && (
-						<Button title={'Устное'} clickHandler={onClickVerbal} />
+						<Button title={'Устное'} clickHandler={onClickVerbal} svg={icons.VerbalIcon} />
 					)}
 					{!isFileLoading && !data.insuranceLetter.isCollective && (
-						<Button title={'Email'} clickHandler={onClickEmail} />
+						<Button title={'Email'} clickHandler={onClickEmail} svg={icons.EmailIcon} />
 					)}
-					{!isFileLoading && <Button title={'ГП на бланке'} clickHandler={onClickPaper} />}
+					{!isFileLoading && (
+						<Button title={'ГП на бланке'} clickHandler={onClickPaper} svg={icons.PaperIcon} />
+					)}
 					{/* <Button title={"Сохранить"} buttonType={ButtonType.outline} clickHandler={onClickSave} /> */}
 					<Button title={'Отмена'} buttonType={ButtonType.outline} clickHandler={onClickCancel} />
 				</div>
