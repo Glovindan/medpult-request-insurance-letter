@@ -41,14 +41,14 @@ export default function PreviewModal() {
 
 		const dateFrom = moment(letterData.dateFrom, 'DD.MM.YYYY')
 		// Дата начала +29 дней
-		const maxDateCalculate = moment(dateFrom).add(moment.duration(29, 'days'))
+		//const maxDateCalculate = moment(dateFrom).add(moment.duration(29, 'days'))
 		// Дата окончания действия полиса
 		const policyEndDate = letterData.policyEndDate
 			? moment(letterData.policyEndDate, 'DD.MM.YYYY')
 			: undefined
 		// Максимально возможная дата для выбора
-		const maxDateTo = policyEndDate?.isBefore(maxDateCalculate) ? policyEndDate : maxDateCalculate
-
+		//const maxDateTo = policyEndDate?.isBefore(maxDateCalculate) ? policyEndDate : maxDateCalculate
+		const maxDateTo = policyEndDate || dateFrom
 		if (dateString.match(/\d\d\.\d\d\.\d\d\d\d/gm)) {
 			const dateTo = moment(dateString, 'DD.MM.YYYY')
 
@@ -56,8 +56,8 @@ export default function PreviewModal() {
 			if (dateTo.isBefore(dateFrom)) {
 				letterData.dateTo = dateFrom.format('DD.MM.YYYY')
 				showError('Дата окончания согласования не может быть меньше даты начала согласования')
-			} else if (dateTo.isAfter(maxDateTo)) {
-				letterData.dateTo = moment(maxDateTo).format('DD.MM.YYYY')
+			} else if (policyEndDate && dateTo.isAfter(policyEndDate)) {
+				letterData.dateTo = policyEndDate.format('DD.MM.YYYY')
 				showError(
 					'Дата окончания согласования не может быть позднее чем 29 дней после даты начала согласования или даты окончания действия полиса'
 				)
@@ -82,7 +82,8 @@ export default function PreviewModal() {
 		letterData.form = ApprovalForm.email
 		await Scripts.updateApprovalData(letterData)
 
-		setValue('isShowEmailModal', true)
+		await Scripts.handleSaveEmailClick()
+		//setValue('isShowEmailModal', true)
 	}
 
 	const onClickPaper = async () => {
@@ -90,7 +91,8 @@ export default function PreviewModal() {
 		letterData.form = ApprovalForm.paper
 		await Scripts.updateApprovalData(letterData)
 
-		setValue('isShowPaperModal', true)
+		await Scripts.handleSavePaperClick()
+		//setValue('isShowPaperModal', true)
 	}
 
 	const onClickSave = async () => {
